@@ -9,8 +9,7 @@ my $isPrime = 0;
 for (my $i = 1; $i <= $input; $i++){
 	$isPrime = isPrime($i);
 	if ($isPrime == 0) {
-		print $i;
-		print "\n";		
+		print $i."\n";		
 	}
 }
 
