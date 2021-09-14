@@ -54,7 +54,7 @@ def findTriplet(valSum, valRange):
 			if (i in valRange and j in valRange):
 
 				k = int(valSum) - (i + j)
-				if (k in valRange and k != j and j != i and k != i):
+				if (k != j and j != i and k != i):
 
 					currNorm = math.sqrt((i*i) + (j*j) + (k*k))					
 					if (smallestNorm == float(0) or currNorm < smallestNorm):
