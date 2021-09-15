@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-
+import math
 #Program for computing Goldbach's Weak Conjecture for an entered value
 #By Adrian Faircloth
 #9-12-2021
-import math
+
 
 def checkReqs(val):
 	#Checks if input value meets requirements for Goldbach Conjecture
