@@ -112,7 +112,7 @@ private static int[] triplet = new int[3];
 				if(inPrimeSet(i) == true && inPrimeSet(j) == true)
 				{
 					k = sum - (j + i);
-					if  (k != j && j != i && k != i)
+					if  (k != j && k != i)
 					{
 						currNorm = Math.sqrt((i*i) + (j*j) + (k*k));
 						if (smallestNorm == 0 || currNorm < smallestNorm)
