@@ -11,7 +11,8 @@ private static int[] triplet = new int[3];
 	public static void main(String[] args) 
 	{
 	//Takes user input, checks if input meets Goldbach requirements
-	//If yes, finds triplet of primes w/ smallest vector norm whose sum is input value
+	//If yes, finds triplet of primes w/ smallest vector norm whose sum is input value,
+	//	sorts triplet and prints
 	//If no, prints error message and exits
 		int inputVal;
 		boolean meetsReqs;
