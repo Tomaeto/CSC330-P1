@@ -9,7 +9,8 @@ public class Goldbach
 	static public void Main()
 	{
 		//Getting int inputVal from user, checks if it meets Goldbach requirements
-		//If yes, finds all primes < inputVal and finds triplet that satisfies Goldbach Conjecture
+		//If yes, finds all primes < inputVal, finds triplet that satisfies Goldbach Conjecture,
+		//	sorts triplet and prints result
 		//If no, prints error message and exits 
 		int inputVal;
 		Console.Write("Enter an odd integer greater than seven: ");
