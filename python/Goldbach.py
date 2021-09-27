@@ -67,7 +67,8 @@ def findTriplet(valSum, valRange):
 
 def main():
 	#Taking input value, checks if input meets Goldbach requirements
-	#If yes, finds triplet of odd primes w/ smallest vector norm that sum to input
+	#If yes, finds triplet of odd primes w/ smallest vector norm that sum to input,
+	#	sorts triplet and prints result
 	#If no, prints error message and exits
 	inputVal = 0
 	inputVal = input("Enter an odd integer greater than seven: ")
