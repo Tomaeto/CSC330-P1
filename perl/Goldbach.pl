@@ -83,7 +83,8 @@ sub findTriplet
 sub main
 {
 	#Gets user input, checks if input meets Goldbach Conjecture requirements
-	#If yes, finds triplet that stasfies Conjecture w/ smallest vector norm
+	#If yes, finds triplet that satisfies Conjecture w/ smallest vector norm,
+	#	sorts triplet and prints result
 	#If no, prints error message and exits
 	print "Please enter an odd integer greater than seven: ";
 	my $inpNum = int(<>);
