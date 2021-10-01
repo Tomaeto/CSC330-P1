@@ -21,27 +21,6 @@ sub isPrime {
 	return $retVal;
 }
 
-sub findPrimes
-{
-	#Finds all primes < $num
-	#adds primes to array by reference
-	my $num = shift;
-	my $primesRef = shift;
-	my $count = 0;
-        for (my $i = 1; $i <= $num; $i++)
-        {
-                if(isPrime($i) == 0)
-                {
-                        $primesRef -> [$count] = $i;
-                        $count++;
-                }
-        }
-	#Removing 2 from array of primes
-	#Since 1 is in all possible sets, 2 is always in index [1] of array
-	splice(@$primesRef, 1, 1);
-}
-
-
 sub findTriplet
 {
 	#Finds the triplet of primes that add to sum w/ smallest vector norm
@@ -49,7 +28,6 @@ sub findTriplet
 	#Stores triplet w/ smaller norm each comparison
 	#Finally, triplet w/ smallest vector norm is stored in @triplet
 	my $sum = shift;
-	my $primesRef = shift;
 	my $currNorm = 0;
 	my $smallestNorm = 0;
 	my $i = 0;
@@ -60,7 +38,7 @@ sub findTriplet
 	{
 		for ($j = 3; $j < $sum; $j++)
 		{
-			if (grep(/$i/, @$primesRef) && grep(/$j/, @$primesRef))
+			if (isPrime($i) == 0 && isPrime($j) == 0 )
 			{
 				$k = $sum - ($i + $j);
 				if ($k != $i && $k != $j && $i != $j)
@@ -89,12 +67,10 @@ sub main
 	print "Please enter an odd integer greater than seven: ";
 	my $inpNum = int(<>);
 	my $isprime = 0;
-	my @primes;
 	my @triplet;
 	if ($inpNum % 2 == 1 && $inpNum > 7)
 	{
-		findPrimes($inpNum, \@primes);
-		@triplet = findTriplet($inpNum, \@primes);
+		@triplet = findTriplet($inpNum);
 		@triplet = sort {$a <=> $b} @triplet;	
 		print "$inpNum: ($triplet[0], $triplet[1], $triplet[2])\n"; 		
 	}
@@ -105,4 +81,5 @@ sub main
 		
 }
 
+#running driver code
 main();
