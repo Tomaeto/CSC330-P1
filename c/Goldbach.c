@@ -25,7 +25,6 @@ int main()
 		findTriplet(triPtr, input);
 		int j = 3;
 		int i = 9;
-		sortTriplet(triPtr);
 		printf("%d: (%d, %d, %d)\n", input, triplet[0], triplet[1], triplet[2]);
 	}
 	else
@@ -61,9 +60,12 @@ void findTriplet(int* arrPtr, int sum)
 	//Finds triplets of primes < sum that sum to input value
 	//If a triplet's vector norm < current smallest norm, sets triplet array to those values
 	//Finally, triplet w/ smallest vector norm is stored in triplet array
+	//In case of a tie, triplet w/ larger smallest value is returned
 	int i, j, k;
 	double smallestNorm = 0;
 	double currNorm = 0;
+	int tempTriplet[3];
+	int* tempPtr = tempTriplet;
 	for (i = sum; i > 1; i--)
 	{
 		for (j = 1; j < sum; j++)
@@ -71,7 +73,7 @@ void findTriplet(int* arrPtr, int sum)
 			if (isPrime(i) == 1 && isPrime(j) == 1)
 			{
 				k = sum - (i + j);
-				if (k != j && k != i && i != j)
+				if (isPrime(k) == 1 && k != j && k != i && i != j)
 				{
 					currNorm = sqrt((i*i) + (j*j) + (k*k));
 					if (smallestNorm == 0 || currNorm < smallestNorm)
@@ -80,6 +82,18 @@ void findTriplet(int* arrPtr, int sum)
 						*(arrPtr) = i;
 						*(arrPtr + 1) = j;
 						*(arrPtr + 2) = k;
+						sortTriplet(arrPtr);
+					}
+					else if (smallestNorm == currNorm)
+					{
+						tempTriplet[0] = i;
+						tempTriplet[1] = j;
+						tempTriplet[2] = k;
+						sortTriplet(tempPtr);
+						if (tempTriplet[0] > *(arrPtr))
+						{
+							arrPtr = tempPtr;
+						}
 					}
 				}
 			}
