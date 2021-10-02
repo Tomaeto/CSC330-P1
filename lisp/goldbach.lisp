@@ -26,6 +26,7 @@
 )
 
 
+
 ;;Main driver code
 ;;
 ;;Takes input from user for int value, checks if input meets Goldbach reqs
@@ -45,7 +46,9 @@
 ;;Checking if input meets Goldbach requirements
 (cond ((and (> inpVal 7) (/= (mod inpVal 2) 0))
 	(defvar triplet)
+	(defvar tempTrip)
 	(setf triplet (make-array '(3)))
+	(setf tempTrip (make-array '(3)))
 	(setf i 1)
 	(setf j 1)
 	(setq smallNorm 0)
@@ -54,13 +57,14 @@
 	;;For each triplet, compares vector norm to current smallest norm
 	;;If current norm < smallest norm, triplet is set to those primes
 	;;Finally, triplet with smallest vector norm is in triplet array
+	;;In case of a tie, triplet w/ larger smallest value is returned
 	(loop for i from 1 to inpVal doing
 		(loop for j from 1 to inpVal doing
 		(if (and (= (isPrime i) 1) (= (isPrime j) 1))
 			(progn
 			(setq k (- inpVal (+ i j)))
 			(setq k (abs k))
-			(if (and (/= k i) (/= k j) (/= i j))
+			(if (and (= (isPrime k) 1) (/= k i) (/= k j) (/= i j))
 				(progn
 				(setq currNorm (sqrt  (+ (+ (* i i) (* j j)) (* k k) )))
 				(if (or (< currNorm smallNorm) (= smallNorm 0))
@@ -69,6 +73,18 @@
 					(setf (aref triplet 1) j)
 					(setf (aref triplet 2) k)
 					(setq smallNorm currNorm)
+					(sort triplet #'<)
+					)
+				)
+				(if (= currNorm smallNorm)
+					(progn
+					(setf (aref tempTrip 0) i)
+					(setf (aref tempTrip 1) j)
+					(setf (aref tempTrip 2) k)
+					(sort tempTrip #'<)
+					(if (> (aref tempTrip 0) (aref triplet 0))
+						(setf triplet tempTrip)
+					)
 					)
 				)
 				)
