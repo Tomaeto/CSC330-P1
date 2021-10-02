@@ -1,7 +1,10 @@
 # goldbach
 
 Goldbach Conjecture Project
+
 Contains 8 directories that each contain Goldbach Conjecture program in a different programming language
+
+Instructions assume user starts in goldbach folder
 
 To run Java:
 
