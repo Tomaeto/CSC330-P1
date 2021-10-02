@@ -4,7 +4,7 @@ Goldbach Conjecture Project
 Contains 8 directories that each contain Goldbach Conjecture program in a different programming language
 
 To run Java:
-    cd java
+  \n  cd java
     javac goldbach.java
     java goldbach
 
