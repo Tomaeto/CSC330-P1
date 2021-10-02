@@ -22,7 +22,6 @@ public class Goldbach
 			findOddPrimes(inputVal, ref primes);
 			int[] triplet = new int[3];
 			findTriplet(inputVal, ref triplet, primes);
-			Array.Sort(triplet);
 			Console.WriteLine($"{inputVal}: ({triplet[0]}, {triplet[1]}, {triplet[2]})");
 		}
 		else
@@ -58,6 +57,7 @@ public class Goldbach
 		//Finally, triplet with smallest vector norm will be stored in triplet array
 		double smallestNorm = 0;
 		double currNorm;
+		int[] tempTriplet = new int[3];
 		int i;
 		int j;
 		int k;
@@ -68,7 +68,7 @@ public class Goldbach
 				if (primes.Contains(i) == true && primes.Contains(j) == true)
 				{
 					k = sum - (i + j);
-					if (k != j  && k != i && i != j)
+					if (primes.Contains(k) == true && k != j  && k != i && i != j)
 					{
 						currNorm = Math.Sqrt( (i*i) + (j*j) + (k*k) );
 						if (smallestNorm == 0 || currNorm < smallestNorm)
@@ -77,6 +77,18 @@ public class Goldbach
 							triplet[1] = j;
 							triplet[2] = k;
 							smallestNorm = currNorm;
+							Array.Sort(triplet);
+						}
+						else if (smallestNorm == currNorm)
+						{
+							tempTriplet[0] = i;
+							tempTriplet[1] = j;
+							tempTriplet[2] = k;
+							Array.Sort(tempTriplet);
+							if (tempTriplet[0] > triplet[0])
+							{
+								triplet = tempTriplet;
+							}
 						}
 					}
 				}
