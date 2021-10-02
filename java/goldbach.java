@@ -24,7 +24,6 @@ private static int[] triplet = new int[3];
 		{
 			primes = findOddPrimes(inputVal);
 			findTriplet(inputVal);
-			Arrays.sort(triplet);
 			System.out.println(inputVal + ": (" + triplet[0] + ", " + triplet[1] + ", " + triplet[2] + ")"); 
 		}
 		else
@@ -52,7 +51,7 @@ private static int[] triplet = new int[3];
 		for (int i = 1; i < n; i++)
 			isPrime[i] = true;
 
-		for (int i = 2; i*i < n; i++) 
+		for (int i = 2; i*i <= n; i++) 
 		{
 			if (isPrime[i] == true) 
 			{
@@ -83,16 +82,15 @@ private static int[] triplet = new int[3];
 		return primeVals;
 	}
 	
-	public static boolean inPrimeSet(int val) 
+	public static boolean isPrime(int val) 
 	{
 	//Checks if a value is in the set of primes < n
-		boolean prime = false;
-		for(int i = 0; i < primes.length; i++)
+		for (int i = 2; i <= Math.sqrt(val); i++)
 		{
-			if(val == primes[i])
-				prime = true;
+			if (val % i == 0)
+				return false;
 		}
-		return prime;
+		return true;
 	}
 	
 	public static void findTriplet(int sum) 
@@ -101,19 +99,21 @@ private static int[] triplet = new int[3];
 	//and has the smallest vector norm
 	//Compares the norms of each possible triplet of primes, stores triplet w/ smaller norm each comparison
 	//Finally, triplet will contain values with smallest vector norm
+	//In the case of a tie, the triplet with the larger smallest value is returned
 		double smallestNorm = 0;	
 		double currNorm = 0;
 		int k = 0;
 		int i = 0;
 		int j = 0;
-		for (i = sum; i > 2; i--)
+		int[] tempTrip = new int[3];
+		for (i = 1; i < sum; i++)
 		{
-			for (j = 3; j < sum ; j++)
+			for (j = 1; j < sum ; j++)
 			{
-				if(inPrimeSet(i) == true && inPrimeSet(j) == true)
+				if(isPrime(i) == true && isPrime(j) == true)
 				{
 					k = sum - (j + i);
-					if  (k != j && k != i && j != i)
+					if  (isPrime(k) && k != j && k != i && j != i)
 					{
 						currNorm = Math.sqrt((i*i) + (j*j) + (k*k));
 						if (smallestNorm == 0 || currNorm < smallestNorm)
@@ -122,7 +122,20 @@ private static int[] triplet = new int[3];
 							triplet[1] = j;
 							triplet[2] = k;
 							smallestNorm = currNorm;
+							Arrays.sort(triplet);
+        
 						}	
+						else if (smallestNorm == currNorm)
+						{
+							tempTrip[0] = i;
+							tempTrip[1] = j;
+							tempTrip[2] = k;
+							Arrays.sort(tempTrip);
+							if (triplet[0] < tempTrip[0])
+								triplet = tempTrip;
+							
+
+						}
 					}		
 				}
 			}
