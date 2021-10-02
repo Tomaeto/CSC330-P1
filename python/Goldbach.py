@@ -40,13 +40,14 @@ def findTriplet(valSum, valRange):
 	#and has smallest vector norm
 	#Compares norm of each triplet found, stores triplet w/ smaller norm
 	#Finally, triplet[] will contain values w/ smallest vector norm 
+	#In case of a tie, triplet w/ larger smallest value is returned
 	smallestNorm = float()
 	currNorm = float()
 	i = 0
 	j = 0
 	k = 0
 	triplet = [0, 0, 0]
-
+	tempTrip = [0, 0, 0]
 	for i in range(int(valSum), 2, -1):
 
 		for j in range(3, int(valSum), 1):
@@ -54,7 +55,7 @@ def findTriplet(valSum, valRange):
 			if (i in valRange and j in valRange):
 
 				k = int(valSum) - (i + j)
-				if (k != j and k != i and i != j):
+				if (k in valRange and k != j and k != i and i != j):
 
 					currNorm = math.sqrt((i*i) + (j*j) + (k*k))					
 					if (smallestNorm == float(0) or currNorm < smallestNorm):
@@ -63,6 +64,14 @@ def findTriplet(valSum, valRange):
 						triplet[1] = j
 						triplet[2] = k
 						smallestNorm = currNorm
+						triplet.sort()
+					elif (smallestNorm == currNorm):
+						tempTrip[0] = i
+						tempTrip[1] = j
+						tempTrip[2] = k
+						tempTrip.sort()
+						if (triplet[0] < tempTrip[0]):
+							triplet = tempTrip
 	return triplet
 
 def main():
@@ -76,7 +85,6 @@ def main():
 	if meetsReqs == 1:
 		primeSet = findOddPrimes(inputVal)
 		valTriplet = findTriplet(inputVal, primeSet)
-		valTriplet.sort()
 		print(inputVal + ": (" + str(valTriplet[0]) + ", " + str(valTriplet[1]) + ", " + str(valTriplet[2]) + ")")
 	else:
 		print("Invalid entry (Not odd integer greater than seven)")
