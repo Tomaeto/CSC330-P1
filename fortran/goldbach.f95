@@ -19,7 +19,7 @@ program Goldbach
                write (*, fmt = "(i0, a)", advance = "no") inpVal, ": ("      
                write (*, fmt = "(i0, a)", advance = "no") triplet(1), ", "
                write (*, fmt = "(i0, a)", advance = "no") triplet(2), ", "
-               write (*, fmt = "(i0, a)", advance = "yes") triplet(3), ")" 
+               write (*, fmt = "(i0, a)", advance = "yes") triplet(3), ")"     
         else
                 print *, "Invalid entry (not odd integer greater than seven)"
         endif
@@ -31,27 +31,63 @@ subroutine findTriplet(sumval, triplet)
 !If a triplet's vector norm < current smallest norm,
 !       sets triplet array to those values
 !Finally, triplet w/ smallest norm stored in triplet array
+!In case of a tie, triplet/ larger smallest value is returned
         integer :: sumval
         integer, dimension(3) :: triplet
+        integer, dimension(3) :: tempTrip
         real :: currNorm, smallNorm
         logical :: isPrime
         smallNorm = 0
-        do i = 1, sumval
-              do j = 1, sumval  
+        do i = 1, sumval, 1
+              do j = 1, sumval, 1  
                  if (isPrime(i) .and. isPrime(j)) then
                        k = abs(sumval - i - j)
-                       if (k .ne. j .and. k .ne. i .and. i .ne. j) then
-                            currNorm = sqrt(real(i*i + j*j + k*k)) 
-                            if (smallNorm .eq. 0 .or. currNorm .lt. smallNorm) then
+                       if (isPrime(k) .and. k .ne. j .and. k .ne. i .and. i .ne. j) then
+                            currNorm = real( i**2 + j**2 + k**2)
+                            currNorm = sqrt(currNorm) 
+                            if (smallNorm == 0 .or. currNorm < smallNorm) then
                                 smallNorm = currNorm
                                 triplet(1) = i
                                 triplet(2) = j
                                 triplet(3) = k
+                                call sortTriplet(triplet)
+
+                            else if (smallNorm == currNorm) then
+                                tempTrip(1) = i
+                                tempTrip(2) = j
+                                tempTrip(3) = k
+                                call sortTriplet(tempTrip)
+                                if (tempTrip(1) .gt. triplet(1)) then
+                                        triplet = tempTrip
+                                endif
                             endif
                        endif
                  endif
               end do  
         end do
+end subroutine
+
+subroutine sortTriplet(triplet)
+!subroutine to sort a triplet in ascending order
+        integer, dimension(3) :: triplet
+        if (triplet(1) .gt. triplet(3)) then
+                call swap(triplet(1), triplet(3))
+        endif
+        if (triplet(1) .gt. triplet(2)) then
+                call swap(triplet(1), triplet(2))
+        endif
+        if (triplet(2) .gt. triplet(3)) then
+                call swap(triplet(2), triplet(3))
+        endif
+end subroutine
+
+subroutine swap(a, b)
+!Swaps the values of two integer variables
+!Used in sortTriplet subroutine
+        integer :: a, b, temp
+        temp = a
+        a = b
+        b = temp
 end subroutine
 
 logical function isPrime(val)
