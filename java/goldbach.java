@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.Arrays;
 public class goldbach {
 	
-private static int[] primes;	
+
 private static int[] triplet = new int[3];
 	public static void main(String[] args) 
 	{
@@ -22,7 +22,6 @@ private static int[] triplet = new int[3];
 		meetsReqs = checkReqs(inputVal);
 		if (meetsReqs == true)
 		{
-			primes = findOddPrimes(inputVal);
 			findTriplet(inputVal);
 			System.out.println(inputVal + ": (" + triplet[0] + ", " + triplet[1] + ", " + triplet[2] + ")"); 
 		}
@@ -42,49 +41,12 @@ private static int[] triplet = new int[3];
 		else
 			return false;
 	}
-	
-	public static int[] findOddPrimes(int n) 
-	{
-	//Creates boolean array isPrime[] of all values < n
-	//Any value in isPrime that is not an odd  prime is set to false
-		boolean isPrime[] = new boolean[n];
-		for (int i = 1; i < n; i++)
-			isPrime[i] = true;
-
-		for (int i = 2; i*i <= n; i++) 
-		{
-			if (isPrime[i] == true) 
-			{
-				for (int j = i*i; j < n; j += i)
-					isPrime[j] = false;
-			}
-		}
-		isPrime[2] = false;	//Removing 2 from set of primes	
 		
-	//Counting number of odd primes in range < n
-	//and storing in an int array
-		int numPrimes = 0;
-		for (int i = 0; i < n; i++) 
-		{
-			if (isPrime[i] == true)
-				numPrimes++;
-		}
-		int[] primeVals = new int[numPrimes];
-		int pointer = 0;
-		for (int i = 0; i < n; i++) 
-		{
-			if (isPrime[i] == true) 
-			{
-				primeVals[pointer] = i;
-				pointer++;
-			}
-		}
-		return primeVals;
-	}
-	
 	public static boolean isPrime(int val) 
 	{
 	//Checks if a value is in the set of primes < n
+		if (val == 2)
+			return false;
 		for (int i = 2; i <= Math.sqrt(val); i++)
 		{
 			if (val % i == 0)
