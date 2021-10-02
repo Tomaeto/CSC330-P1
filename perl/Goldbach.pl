@@ -34,6 +34,7 @@ sub findTriplet
 	my $j = 0;
 	my $k = 0;
 	my @triplet;
+	my @tempTriplet;
 	for ($i = $sum; $i > 2; $i--)
 	{
 		for ($j = 3; $j < $sum; $j++)
@@ -41,7 +42,8 @@ sub findTriplet
 			if (isPrime($i) == 0 && isPrime($j) == 0 )
 			{
 				$k = $sum - ($i + $j);
-				if ($k != $i && $k != $j && $i != $j)
+				$k = abs($k);
+				if (isPrime($k) == 0 && $k != $i && $k != $j && $i != $j)
 				{
 					$currNorm = sqrt( ($i*$i) + ($j*$j) + ($k*$k));
 					if ($smallestNorm == 0 || $currNorm < $smallestNorm)
@@ -50,7 +52,19 @@ sub findTriplet
 						$triplet[1] = $j;
 						$triplet[2] = $k;
 						$smallestNorm = $currNorm;
+						@triplet = sort {$a <=> $b} @triplet;
 					} 
+					elsif ($smallestNorm == $currNorm)
+					{
+						$tempTriplet[0] = $i;
+						$tempTriplet[1] = $k;
+						$tempTriplet[2] = $j;
+						@tempTriplet = sort {$a <=> $b} @tempTriplet;
+						if ($triplet[0] < $tempTriplet[0])
+						{
+							@triplet = @tempTriplet;
+						}
+					}
 				}
 			}
 		}
@@ -71,7 +85,6 @@ sub main
 	if ($inpNum % 2 == 1 && $inpNum > 7)
 	{
 		@triplet = findTriplet($inpNum);
-		@triplet = sort {$a <=> $b} @triplet;	
 		print "$inpNum: ($triplet[0], $triplet[1], $triplet[2])\n"; 		
 	}
 	else
