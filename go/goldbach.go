@@ -27,7 +27,9 @@ func findTriplet(sum int) ([3]int) {
 	//Compares the norm of each triplet found to current smallest norm
 	//If current norm < smallest norm, fills triplet array with those values
 	//Finally, triplet w/ smallest possible vector norm is stored in array and returned
+	//In case of a tie, triplet w/ larger smallest value is returned
 	var triplet [3] int;
+	var tempTrip [3] int;
 	var i int;
 	var j int;
 	var k int;
@@ -37,14 +39,24 @@ func findTriplet(sum int) ([3]int) {
 		for j = 3; j < sum; j++ {
 			if (isPrime(i) == 1 && isPrime(j) == 1) {
 				k = sum - (i + j);
-				if i != j && i != k && k!= j {
+				if isPrime(k) == 1 && i != j && i != k && k!= j {
 					currNorm = math.Sqrt(float64( (i*i) + (j*j) + (k*k) ));
 					if smallestNorm == 0 || currNorm < smallestNorm {
 						triplet[0] = i;
 						triplet[1] = j;
 						triplet[2] = k;
 						smallestNorm = currNorm;
-					}	
+						sort.Ints(triplet[:]);
+						
+			   		} else if currNorm == smallestNorm {
+						tempTrip[0] = i;
+						tempTrip[1] = j;
+						tempTrip[2] = k;
+						sort.Ints(tempTrip[:]);
+						if triplet[0] < tempTrip[0] {
+							triplet = tempTrip;
+						}
+					}
 				}
 			} 			
 		}  
@@ -63,7 +75,6 @@ func main() {
 	var valTriplet [3] int;
 	if (inpVal % 2 == 1 && inpVal > 7) {
 		valTriplet = findTriplet(inpVal);
-		sort.Ints(valTriplet[:]);
 		fmt.Println(inpVal, ": (", valTriplet[0], ",", valTriplet[1], ",", valTriplet[2], ")");
 	} else {
 		fmt.Println("Invalid input (not odd integer greater than seven)");
